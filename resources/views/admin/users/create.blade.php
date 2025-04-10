@@ -74,6 +74,17 @@
                             <x-input-error :messages="$errors->get('role')" class="mt-2" />
                         </div>
 
+                        <!-- Account Status -->
+                        <div class="mt-4">
+                            <x-input-label for="status" :value="__('Account Status')" />
+                            <select id="status" name="status" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <option value="active" {{ old('status', 'active') === 'active' ? 'selected' : '' }}>Active</option>
+                                <option value="inactive" {{ old('status') === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                            </select>
+                            <x-input-error :messages="$errors->get('status')" class="mt-2" />
+                            <p class="mt-1 text-sm text-gray-500">Inactive accounts cannot log in to the system.</p>
+                        </div>
+
                         <div class="flex items-center justify-end mt-4">
                             <x-primary-button class="ms-4">
                                 {{ __('Create Account') }}

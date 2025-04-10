@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
+use Illuminate\Contracts\Cookie\QueueingFactory as CookieJarContract;
+use Illuminate\Support\Facades\DB;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -28,6 +31,14 @@ class AuthenticatedSessionController extends Controller
             'password' => ['required', 'string'],
         ]);
 
+        // Check if the user exists and is inactive
+        $user = \App\Models\User::where('username', $request->username)->first();
+        if ($user && $user->status === 'inactive') {
+            return back()->withErrors([
+                'username' => 'Your account has been deactivated by the system administrator. Please contact support for assistance.',
+            ])->onlyInput('username');
+        }
+
         // Attempt to authenticate the user
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password], $request->boolean('remember'))) {
             $request->session()->regenerate();
@@ -45,10 +56,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
+        Auth::logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');

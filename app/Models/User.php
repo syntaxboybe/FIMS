@@ -22,6 +22,7 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'status',
     ];
 
     /**
@@ -69,5 +70,15 @@ class User extends Authenticatable
     public function farms()
     {
         return $this->hasMany(Farm::class);
+    }
+
+    /**
+     * Check if the user account is active
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->status === 'active';
     }
 }

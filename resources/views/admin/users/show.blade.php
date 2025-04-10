@@ -22,6 +22,10 @@
                                 <span class="ml-2 text-gray-900">{{ $user->name }}</span>
                             </div>
                             <div>
+                                <span class="text-gray-500">Username:</span>
+                                <span class="ml-2 text-gray-900">{{ $user->username }}</span>
+                            </div>
+                            <div>
                                 <span class="text-gray-500">Email:</span>
                                 <span class="ml-2 text-gray-900">{{ $user->email }}</span>
                             </div>
@@ -33,6 +37,14 @@
                                             {{ ucfirst($role->name) }}
                                         </span>
                                     @endforeach
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Status:</span>
+                                <span class="ml-2">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $user->status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        {{ ucfirst($user->status) }}
+                                    </span>
                                 </span>
                             </div>
                             <div>

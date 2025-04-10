@@ -4,7 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>{{ config('app.name', 'Laravel') }}</title>
+
+        <!-- Favicon -->
+        @php
+            $faviconUrl = \App\Helpers\SettingsHelper::getFavicon();
+        @endphp
+        @if ($faviconUrl)
+            <link rel="icon" href="{{ $faviconUrl }}" type="image/x-icon">
+            <link rel="shortcut icon" href="{{ $faviconUrl }}" type="image/x-icon">
+        @endif
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
