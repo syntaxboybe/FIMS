@@ -1,5 +1,8 @@
 {
     "PACKAGE_MANIFEST_PATH": "/var/www/html/.laravel/cache/packages.php",
+    "SERVICES_MANIFEST_PATH": "/var/www/html/.laravel/cache/services.php",
+    "COMPILED_PATH": "/var/www/html/.laravel/cache",
     "APP_ENV": "production",
-    "APP_DEBUG": "false"
+    "APP_DEBUG": "false",
+    "CACHE_PATH": "/var/www/html/.laravel/cache"
 }
