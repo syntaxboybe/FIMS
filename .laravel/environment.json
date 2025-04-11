@@ -1,8 +1,8 @@
 {
-    "PACKAGE_MANIFEST_PATH": "/var/www/html/.laravel/cache/packages.php",
-    "SERVICES_MANIFEST_PATH": "/var/www/html/.laravel/cache/services.php",
-    "COMPILED_PATH": "/var/www/html/.laravel/cache",
+    "PACKAGE_MANIFEST_PATH": "C:/xampp/htdocs/FIMS/.laravel/cache/packages.php",
+    "SERVICES_MANIFEST_PATH": "C:/xampp/htdocs/FIMS/.laravel/cache/services.php",
+    "COMPILED_PATH": "C:/xampp/htdocs/FIMS/.laravel/cache",
     "APP_ENV": "production",
     "APP_DEBUG": "false",
-    "CACHE_PATH": "/var/www/html/.laravel/cache"
+    "CACHE_PATH": "C:/xampp/htdocs/FIMS/.laravel/cache"
 }

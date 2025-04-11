@@ -1,2 +1,2 @@
 build:
-  - "mkdir -p /var/www/html/.laravel/cache && chmod -R 777 /var/www/html/.laravel/cache"
+  - "mkdir -p C:/xampp/htdocs/FIMS/.laravel/cache && chmod -R 777 C:/xampp/htdocs/FIMS/.laravel/cache"
