@@ -4,7 +4,17 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
-return Application::configure(basePath: dirname(__DIR__))
+// Create the .laravel/cache directory if it doesn't exist
+if (!is_dir(__DIR__ . '/../.laravel/cache')) {
+    mkdir(__DIR__ . '/../.laravel/cache', 0777, true);
+}
+
+// Create the bootstrap/cache directory if it doesn't exist
+if (!is_dir(__DIR__ . '/cache')) {
+    mkdir(__DIR__ . '/cache', 0777, true);
+}
+
+$app = Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         commands: __DIR__.'/../routes/console.php',
@@ -46,3 +56,8 @@ return Application::configure(basePath: dirname(__DIR__))
         App\Providers\ActiveUserServiceProvider::class,
     ])
     ->create();
+
+// Include the cache fix
+require_once __DIR__ . '/cache_fix.php';
+
+return $app;
