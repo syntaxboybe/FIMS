@@ -1,2 +1,2 @@
 commands:
-  - ".laravel/scripts/deploy.sh"
+  - "sudo bash .laravel/scripts/deploy.sh"

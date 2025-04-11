@@ -1,0 +1,5 @@
+{
+    "PACKAGE_MANIFEST_PATH": "/var/www/html/.laravel/cache/packages.php",
+    "APP_ENV": "production",
+    "APP_DEBUG": "false"
+}
