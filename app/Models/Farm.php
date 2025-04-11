@@ -35,4 +35,12 @@ class Farm extends Model
     {
         return $this->hasMany(Livestock::class);
     }
+
+    /**
+     * Get the health records for the farm through livestock.
+     */
+    public function health_records()
+    {
+        return $this->hasManyThrough(HealthRecord::class, Livestock::class);
+    }
 }

@@ -4,7 +4,7 @@
 
     <!-- Error Message -->
     @if (session('error'))
-        <div class="mb-4 font-medium text-sm text-red-600">
+        <div class="mb-4 font-medium text-sm text-red-600 dark:text-frappe-red">
             {{ session('error') }}
         </div>
     @endif
@@ -34,14 +34,14 @@
         <!-- Remember Me -->
         <div class="block mt-4">
             <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                <input id="remember_me" type="checkbox" class="rounded border-gray-300 dark:border-frappe-surface0 dark:bg-frappe-surface0 text-indigo-600 dark:text-frappe-blue shadow-sm focus:ring-indigo-500 dark:focus:ring-frappe-blue" name="remember">
+                <span class="ms-2 text-sm text-gray-600 dark:text-frappe-text">{{ __('Remember me') }}</span>
             </label>
         </div>
 
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                <a class="underline text-sm text-gray-600 dark:text-frappe-text hover:text-gray-900 dark:hover:text-frappe-lavender rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-frappe-blue" href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
             @endif

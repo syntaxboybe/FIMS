@@ -3,19 +3,23 @@
 @once
     @push('scripts')
     <script>
+        // Make sure our implementation takes priority
         window.showAlert = function(type, title, text, confirmButton = true) {
+            const isDarkMode = document.documentElement.classList.contains('dark');
+
             const options = {
                 icon: type,
                 title: title,
                 text: text,
-                customClass: {
-                    confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded',
-                    cancelButton: 'bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                },
-                buttonsStyling: false
+                buttonsStyling: true,
+                background: isDarkMode ? '#303446' : '#ffffff',
+                color: isDarkMode ? '#c6d0f5' : '#000000',
+                confirmButtonColor: '#8caaee',
+                cancelButtonColor: '#e78284'
             };
 
-            if (!confirmButton) {
+            // Success messages should always auto-close
+            if (type === 'success' || !confirmButton) {
                 options.showConfirmButton = false;
                 options.timer = 3000;
                 options.timerProgressBar = true;
@@ -24,53 +28,62 @@
             Swal.fire(options);
         };
 
-        // Handle flash messages from session
-        document.addEventListener('DOMContentLoaded', function() {
-            @if (session('success'))
-                showAlert('success', 'Success!', '{{ session('success') }}', false);
-            @endif
+        // Apply dark mode styling to any active SweetAlert when theme changes
+        document.addEventListener('theme-changed', function(e) {
+            const isDarkMode = e.detail.theme === 'dark';
+            const currentPopup = document.querySelector('.swal2-container .swal2-popup');
 
-            @if (session('error'))
-                showAlert('error', 'Error!', '{{ session('error') }}', true);
-            @endif
-
-            @if (session('info'))
-                showAlert('info', 'Information', '{{ session('info') }}', false);
-            @endif
-
-            @if (session('warning'))
-                showAlert('warning', 'Warning', '{{ session('warning') }}', true);
-            @endif
+            if (currentPopup) {
+                currentPopup.style.background = isDarkMode ? '#303446' : '#ffffff';
+                currentPopup.style.color = isDarkMode ? '#c6d0f5' : '#000000';
+            }
         });
 
-        // Handle confirmation dialogs
-        window.confirmAction = function(message, confirmText, cancelText, url, method = 'POST') {
+        // Process flash messages when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Process flash messages with priority for success messages
+            setTimeout(function() {
+                @if (session('success'))
+                    showAlert('success', 'Success', "{{ session('success') }}", false);
+                @elseif (session('error'))
+                    showAlert('error', 'Error', "{{ session('error') }}", true);
+                @elseif (session('warning'))
+                    showAlert('warning', 'Warning', "{{ session('warning') }}", true);
+                @elseif (session('info'))
+                    showAlert('info', 'Information', "{{ session('info') }}", true);
+                @endif
+            }, 100);
+        });
+
+        // Function to handle confirmation dialogs
+        window.confirmAction = function(message, confirmText, cancelText, actionUrl, method = 'POST') {
+            const isDarkMode = document.documentElement.classList.contains('dark');
+
             Swal.fire({
                 title: 'Are you sure?',
                 text: message,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: confirmText || 'Yes, do it!',
-                cancelButtonText: cancelText || 'Cancel',
-                customClass: {
-                    confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2',
-                    cancelButton: 'bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                },
-                buttonsStyling: false,
-                reverseButtons: true
+                confirmButtonText: confirmText,
+                cancelButtonText: cancelText,
+                buttonsStyling: true,
+                reverseButtons: true,
+                background: isDarkMode ? '#303446' : '#ffffff',
+                color: isDarkMode ? '#c6d0f5' : '#000000',
+                confirmButtonColor: '#8caaee',
+                cancelButtonColor: '#e78284'
             }).then((result) => {
                 if (result.isConfirmed) {
                     const form = document.createElement('form');
-                    form.method = method;
-                    form.action = url;
+                    form.method = 'POST';
+                    form.action = actionUrl;
                     form.style.display = 'none';
 
-                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                    const csrfInput = document.createElement('input');
-                    csrfInput.type = 'hidden';
-                    csrfInput.name = '_token';
-                    csrfInput.value = csrfToken;
-                    form.appendChild(csrfInput);
+                    const csrfToken = document.createElement('input');
+                    csrfToken.type = 'hidden';
+                    csrfToken.name = '_token';
+                    csrfToken.value = '{{ csrf_token() }}';
+                    form.appendChild(csrfToken);
 
                     if (method !== 'POST') {
                         const methodInput = document.createElement('input');

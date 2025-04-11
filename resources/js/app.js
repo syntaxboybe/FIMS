@@ -2,8 +2,8 @@ import './bootstrap';
 
 import Alpine from 'alpinejs';
 
-// Import SweetAlert helpers
-import './sweetalert';
+// Import Dark Mode functionality
+import './dark-mode';
 
 window.Alpine = Alpine;
 

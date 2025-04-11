@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="color-scheme" content="light dark">
+        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+        <meta name="theme-color" content="#303446" media="(prefers-color-scheme: dark)">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -45,64 +50,63 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <!-- Dark mode init script (placed in head to avoid FOUC) -->
+        <script>
+            // Detect if running in mobile browser or inspect mode emulation
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                            (window.innerWidth <= 768) ||
+                            window.matchMedia('(max-width: 767px)').matches;
+
+            // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.querySelector('meta[name="theme-color"][media="(prefers-color-scheme: dark)"]').setAttribute('content', '#303446');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.querySelector('meta[name="theme-color"][media="(prefers-color-scheme: light)"]').setAttribute('content', '#ffffff');
+            }
+
+            // Add special mobile class if needed
+            if (isMobile) {
+                document.documentElement.classList.add('is-mobile-view');
+            }
+
+            // Initialize click handler for mobile views
+            if (isMobile) {
+                document.addEventListener('click', function(e) {
+                    const toggleButton = e.target.closest('#dark-mode-toggle');
+                    if (toggleButton) {
+                        if (document.documentElement.classList.contains('dark')) {
+                            document.documentElement.classList.remove('dark');
+                            localStorage.theme = 'light';
+                        } else {
+                            document.documentElement.classList.add('dark');
+                            localStorage.theme = 'dark';
+                        }
+                        e.preventDefault();
+                    }
+                }, false);
+            }
+        </script>
     </head>
-    <body class="font-sans antialiased">
-        <div class="flex h-screen bg-gray-100">
-            <!-- Sidebar -->
-            <x-sidebar :isOpen="true" />
+    <body class="font-sans antialiased h-full bg-gray-100 dark:bg-frappe-mantle text-gray-900 dark:text-frappe-text dark-mode-transition">
+        <div class="min-h-screen">
+            @include('layouts.navigation')
 
-            <!-- Main Content -->
-            <div class="flex-1 flex flex-col overflow-hidden">
-                <!-- Top Bar -->
-                <header class="bg-white shadow">
-                    <div class="max-w-full mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-                        @isset($header)
-                            {{ $header }}
-                        @else
-                            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                                {{ config('app.name', 'Laravel') }}
-                            </h2>
-                        @endisset
-
-                        <!-- User dropdown for mobile (only shows if sidebar is collapsed) -->
-                        <div class="lg:hidden">
-                            <x-dropdown align="right" width="48">
-                                <x-slot name="trigger">
-                                    <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                        <div>{{ Auth::user()->name }}</div>
-                                        <div class="ms-1">
-                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                    </button>
-                                </x-slot>
-
-                                <x-slot name="content">
-                                    <x-dropdown-link :href="route('profile.edit')">
-                                        {{ __('Profile') }}
-                                    </x-dropdown-link>
-
-                                    <!-- Authentication -->
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <x-dropdown-link :href="route('logout')"
-                                                onclick="event.preventDefault();
-                                                            this.closest('form').submit();">
-                                            {{ __('Log Out') }}
-                                        </x-dropdown-link>
-                                    </form>
-                                </x-slot>
-                            </x-dropdown>
-                        </div>
+            <!-- Page Heading -->
+            @isset($header)
+                <header class="bg-white dark:bg-frappe-base shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
                     </div>
                 </header>
+            @endisset
 
-                <!-- Main content -->
-                <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
-                    {{ $slot }}
-                </main>
-            </div>
+            <!-- Page Content -->
+            <main>
+                {{ $slot }}
+            </main>
         </div>
 
         <!-- SweetAlert Component -->

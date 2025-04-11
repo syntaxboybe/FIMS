@@ -15,13 +15,15 @@ return new class extends Migration
             $table->id();
             $table->foreignId('livestock_id')->constrained('livestocks')->onDelete('cascade');
             $table->date('record_date');
-            $table->string('record_type'); // vaccination, treatment, examination
-            $table->text('description')->nullable();
-            $table->string('performed_by')->nullable();
-            $table->decimal('cost', 10, 2)->nullable();
-            $table->date('next_follow_up')->nullable();
+            $table->string('record_type'); // vaccination, treatment, checkup, etc.
+            $table->string('diagnosis')->nullable();
+            $table->string('treatment')->nullable();
+            $table->string('medication')->nullable();
+            $table->string('dosage')->nullable();
+            $table->string('administered_by')->nullable();
+            $table->date('follow_up_date')->nullable();
             $table->text('notes')->nullable();
-            $table->string('attachments')->nullable(); // for any documents or images
+            $table->string('attachment')->nullable(); // for any documents or images
             $table->timestamps();
         });
     }

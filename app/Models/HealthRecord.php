@@ -13,18 +13,19 @@ class HealthRecord extends Model
         'livestock_id',
         'record_date',
         'record_type',
-        'description',
-        'performed_by',
-        'cost',
-        'next_follow_up',
+        'diagnosis',
+        'treatment',
+        'medication',
+        'dosage',
+        'administered_by',
+        'follow_up_date',
         'notes',
-        'attachments',
+        'attachment',
     ];
 
     protected $casts = [
         'record_date' => 'date',
-        'next_follow_up' => 'date',
-        'cost' => 'decimal:2',
+        'follow_up_date' => 'date',
     ];
 
     /**

@@ -19,12 +19,8 @@ class DashboardController extends Controller
         if ($user->hasRole('admin')) {
             return redirect()->route('admin.dashboard');
         } elseif ($user->hasRole('farmer')) {
-            // If farmer has farms, show them, otherwise redirect to create a farm
-            if ($user->farms()->exists()) {
-                return redirect()->route('farmer.farms.index');
-            } else {
-                return redirect()->route('farmer.farms.create');
-            }
+            // Redirect to the farmer dashboard
+            return redirect()->route('farmer.dashboard');
         }
 
         // Fallback if role is not recognized

@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-frappe-text leading-tight">
                 {{ __('Add New Livestock') }}
             </h2>
-            <a href="{{ route('farmer.livestock.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ route('farmer.livestock.index') }}" class="bg-gray-500 hover:bg-gray-600 dark:bg-frappe-surface1 dark:hover:bg-frappe-surface2 text-white dark:text-frappe-text font-bold py-2 px-4 rounded">
                 Back to Livestock
             </a>
         </div>
@@ -12,8 +12,8 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+            <div class="bg-white dark:bg-frappe-base overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-frappe-text">
                     <form method="POST" action="{{ route('farmer.livestock.store') }}" enctype="multipart/form-data">
                         @csrf
 
@@ -22,7 +22,7 @@
                                 <!-- Farm -->
                                 <div class="mb-4">
                                     <x-input-label for="farm_id" :value="__('Farm')" />
-                                    <select id="farm_id" name="farm_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                                    <select id="farm_id" name="farm_id" class="block mt-1 w-full border-gray-300 dark:border-frappe-surface1 dark:bg-frappe-mantle dark:text-frappe-text focus:border-indigo-500 dark:focus:border-frappe-lavender focus:ring-indigo-500 dark:focus:ring-frappe-lavender rounded-md shadow-sm" required>
                                         <option value="">Select Farm</option>
                                         @foreach ($farms as $farm)
                                             <option value="{{ $farm->id }}" {{ old('farm_id') == $farm->id ? 'selected' : '' }}>{{ $farm->name }}</option>
@@ -34,7 +34,7 @@
                                 <!-- Category -->
                                 <div class="mb-4">
                                     <x-input-label for="livestock_category_id" :value="__('Category')" />
-                                    <select id="livestock_category_id" name="livestock_category_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                                    <select id="livestock_category_id" name="livestock_category_id" class="block mt-1 w-full border-gray-300 dark:border-frappe-surface1 dark:bg-frappe-mantle dark:text-frappe-text focus:border-indigo-500 dark:focus:border-frappe-lavender focus:ring-indigo-500 dark:focus:ring-frappe-lavender rounded-md shadow-sm" required>
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}" {{ old('livestock_category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }} ({{ $category->species }})</option>
@@ -60,7 +60,7 @@
                                 <!-- Gender -->
                                 <div class="mb-4">
                                     <x-input-label for="gender" :value="__('Gender')" />
-                                    <select id="gender" name="gender" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                                    <select id="gender" name="gender" class="block mt-1 w-full border-gray-300 dark:border-frappe-surface1 dark:bg-frappe-mantle dark:text-frappe-text focus:border-indigo-500 dark:focus:border-frappe-lavender focus:ring-indigo-500 dark:focus:ring-frappe-lavender rounded-md shadow-sm" required>
                                         <option value="">Select Gender</option>
                                         <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
                                         <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
@@ -71,7 +71,7 @@
                                 <!-- Status -->
                                 <div class="mb-4">
                                     <x-input-label for="status" :value="__('Status')" />
-                                    <select id="status" name="status" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                                    <select id="status" name="status" class="block mt-1 w-full border-gray-300 dark:border-frappe-surface1 dark:bg-frappe-mantle dark:text-frappe-text focus:border-indigo-500 dark:focus:border-frappe-lavender focus:ring-indigo-500 dark:focus:ring-frappe-lavender rounded-md shadow-sm" required>
                                         <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
                                         <option value="sold" {{ old('status') == 'sold' ? 'selected' : '' }}>Sold</option>
                                         <option value="deceased" {{ old('status') == 'deceased' ? 'selected' : '' }}>Deceased</option>
@@ -128,15 +128,15 @@
                         <!-- Notes -->
                         <div class="mb-4">
                             <x-input-label for="notes" :value="__('Notes')" />
-                            <textarea id="notes" name="notes" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" rows="3">{{ old('notes') }}</textarea>
+                            <textarea id="notes" name="notes" class="block mt-1 w-full border-gray-300 dark:border-frappe-surface1 dark:bg-frappe-mantle dark:text-frappe-text focus:border-indigo-500 dark:focus:border-frappe-lavender focus:ring-indigo-500 dark:focus:ring-frappe-lavender rounded-md shadow-sm" rows="3">{{ old('notes') }}</textarea>
                             <x-input-error :messages="$errors->get('notes')" class="mt-2" />
                         </div>
 
                         <!-- Image -->
                         <div class="mb-4">
                             <x-input-label for="image" :value="__('Image')" />
-                            <input id="image" type="file" name="image" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" accept="image/*" />
-                            <p class="mt-1 text-sm text-gray-500">Upload an image of the livestock (optional)</p>
+                            <input id="image" type="file" name="image" class="block mt-1 w-full border-gray-300 dark:border-frappe-surface1 dark:bg-frappe-surface0 dark:text-frappe-text focus:border-indigo-500 dark:focus:border-frappe-lavender focus:ring-indigo-500 dark:focus:ring-frappe-lavender rounded-md shadow-sm" accept="image/*" />
+                            <p class="mt-1 text-sm text-gray-500 dark:text-frappe-subtext0">Upload an image of the livestock (optional)</p>
                             <x-input-error :messages="$errors->get('image')" class="mt-2" />
                         </div>
 

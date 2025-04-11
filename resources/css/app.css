@@ -1,3 +1,76 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom dark mode enhancements */
+@layer base {
+    /* Ensure proper color transition for all elements */
+    * {
+        @apply transition-colors duration-200 ease-in-out;
+    }
+
+    /* Fix for mobile viewport height issues */
+    html, body {
+        @apply h-full;
+        min-height: -webkit-fill-available;
+    }
+
+    /* Better tap targets on mobile */
+    button, a {
+        @apply sm:tap-highlight-transparent;
+    }
+
+    /* Improve dark mode readability on mobile */
+    .dark input::placeholder {
+        @apply text-frappe-subtext0/80;
+    }
+
+    /* Special handling for mobile views */
+    .is-mobile-view #dark-mode-toggle {
+        @apply touch-manipulation;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    /* Fix SVG icons inside buttons for mobile */
+    button svg {
+        pointer-events: none;
+    }
+
+    /* Ensure proper contrast on mobile dark mode */
+    @media (max-width: 640px) {
+        .dark input,
+        .dark select,
+        .dark textarea {
+            @apply bg-frappe-mantle border-frappe-surface1;
+        }
+
+        /* Larger touch targets on small screens */
+        #dark-mode-toggle {
+            @apply p-3;
+            min-width: 44px;
+            min-height: 44px;
+        }
+    }
+}
+
+/* Mobile browser adaptations */
+@media (hover: none) {
+    /* Disable hover effects that can cause stuck states */
+    button:hover, a:hover {
+        @apply transition-none;
+    }
+
+    /* Ensure dark mode toggle is more visible */
+    #dark-mode-toggle {
+        @apply shadow-sm;
+    }
+}
+
+/* Fix for inspect mode mobile emulation */
+@media (pointer: coarse) {
+    #dark-mode-toggle {
+        cursor: pointer;
+        touch-action: manipulation;
+    }
+}

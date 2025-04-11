@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-frappe-text leading-tight">
                 {{ __('Add New Health Record') }}
             </h2>
-            <a href="{{ route('farmer.health-records.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ route('farmer.health-records.index') }}" class="bg-gray-500 hover:bg-gray-600 dark:bg-frappe-surface1 dark:hover:bg-frappe-surface2 text-white dark:text-frappe-text font-bold py-2 px-4 rounded">
                 Back to Health Records
             </a>
         </div>
@@ -12,15 +12,15 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+            <div class="bg-white dark:bg-frappe-base overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-frappe-text">
                     <form method="POST" action="{{ route('farmer.health-records.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         <!-- Livestock -->
                         <div class="mb-4">
                             <x-input-label for="livestock_id" :value="__('Livestock')" />
-                            <select id="livestock_id" name="livestock_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                            <select id="livestock_id" name="livestock_id" class="block mt-1 w-full border-gray-300 dark:border-frappe-surface1 dark:bg-frappe-mantle dark:text-frappe-text focus:border-indigo-500 dark:focus:border-frappe-lavender focus:ring-indigo-500 dark:focus:ring-frappe-lavender rounded-md shadow-sm" required>
                                 <option value="">Select Livestock</option>
                                 @foreach ($livestock as $animal)
                                     <option value="{{ $animal->id }}" {{ (old('livestock_id') == $animal->id || (isset($selectedLivestock) && $selectedLivestock->id == $animal->id)) ? 'selected' : '' }}>
@@ -36,7 +36,7 @@
                                 <!-- Record Type -->
                                 <div class="mb-4">
                                     <x-input-label for="record_type" :value="__('Record Type')" />
-                                    <select id="record_type" name="record_type" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                                    <select id="record_type" name="record_type" class="block mt-1 w-full border-gray-300 dark:border-frappe-surface1 dark:bg-frappe-mantle dark:text-frappe-text focus:border-indigo-500 dark:focus:border-frappe-lavender focus:ring-indigo-500 dark:focus:ring-frappe-lavender rounded-md shadow-sm" required>
                                         <option value="">Select Type</option>
                                         <option value="vaccination" {{ old('record_type') == 'vaccination' ? 'selected' : '' }}>Vaccination</option>
                                         <option value="treatment" {{ old('record_type') == 'treatment' ? 'selected' : '' }}>Treatment</option>
@@ -78,8 +78,8 @@
                                 <!-- Attachments -->
                                 <div class="mb-4">
                                     <x-input-label for="attachments" :value="__('Attachments (Optional)')" />
-                                    <input id="attachments" type="file" name="attachments" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" />
-                                    <p class="mt-1 text-sm text-gray-500">Upload related documents or images (max 2MB)</p>
+                                    <input id="attachments" type="file" name="attachments" class="block mt-1 w-full border-gray-300 dark:border-frappe-surface1 dark:bg-frappe-mantle dark:text-frappe-text focus:border-indigo-500 dark:focus:border-frappe-lavender focus:ring-indigo-500 dark:focus:ring-frappe-lavender rounded-md shadow-sm" />
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-frappe-subtext0">Upload related documents or images (max 2MB)</p>
                                     <x-input-error :messages="$errors->get('attachments')" class="mt-2" />
                                 </div>
                             </div>
@@ -88,14 +88,14 @@
                         <!-- Description -->
                         <div class="mb-4">
                             <x-input-label for="description" :value="__('Description')" />
-                            <textarea id="description" name="description" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" rows="3" required>{{ old('description') }}</textarea>
+                            <textarea id="description" name="description" class="block mt-1 w-full border-gray-300 dark:border-frappe-surface1 dark:bg-frappe-mantle dark:text-frappe-text focus:border-indigo-500 dark:focus:border-frappe-lavender focus:ring-indigo-500 dark:focus:ring-frappe-lavender rounded-md shadow-sm" rows="3" required>{{ old('description') }}</textarea>
                             <x-input-error :messages="$errors->get('description')" class="mt-2" />
                         </div>
 
                         <!-- Notes -->
                         <div class="mb-4">
                             <x-input-label for="notes" :value="__('Additional Notes (Optional)')" />
-                            <textarea id="notes" name="notes" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" rows="3">{{ old('notes') }}</textarea>
+                            <textarea id="notes" name="notes" class="block mt-1 w-full border-gray-300 dark:border-frappe-surface1 dark:bg-frappe-mantle dark:text-frappe-text focus:border-indigo-500 dark:focus:border-frappe-lavender focus:ring-indigo-500 dark:focus:ring-frappe-lavender rounded-md shadow-sm" rows="3">{{ old('notes') }}</textarea>
                             <x-input-error :messages="$errors->get('notes')" class="mt-2" />
                         </div>
 
